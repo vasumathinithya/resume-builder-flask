@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .preview-resume {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 32px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+        .preview-resume h1 { text-align: center; }
+        .preview-contact { text-align: center; overflow-wrap: anywhere; }
+        .preview-section {
+            margin-top: 22px;
+            padding-top: 12px;
+            border-top: 1px solid #ddd;
+        }
+        .preview-section h2 { color: #17365d; }
+        .preview-content { white-space: pre-wrap; overflow-wrap: anywhere; }
+        .preview-actions { text-align: center; margin: 24px; }
+        .preview-actions a { margin: 8px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">Resume<span>Builder</span></div>
+    <div class="nav-text">Your resume preview</div>
+</nav>
+
+<main class="container">
+    <article class="preview-resume">
+        <h1>{{ resume.name }}</h1>
+        <p class="preview-contact">
+            {{ resume.email }}
+            {% if resume.phone %} | {{ resume.phone }}{% endif %}
+            {% if resume.address %} | {{ resume.address }}{% endif %}
+        </p>
+
+        {% if resume.linkedin or resume.github %}
+        <p class="preview-contact">
+            {% if resume.linkedin %}
+                <a href="{{ resume.linkedin if resume.linkedin.startswith('http') else 'https://' ~ resume.linkedin }}"
+                   target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            {% endif %}
+            {% if resume.linkedin and resume.github %} | {% endif %}
+            {% if resume.github %}
+                <a href="{{ resume.github if resume.github.startswith('http') else 'https://' ~ resume.github }}"
+                   target="_blank" rel="noopener noreferrer">GitHub</a>
+            {% endif %}
+        </p>
+        {% endif %}
+
+        {% set section_titles = {
+            'summary': 'Professional Summary',
+            'education': 'Education',
+            'skills': 'Skills',
+            'projects': 'Projects',
+            'experience': 'Experience',
+            'certifications': 'Certifications',
+            'achievements': 'Achievements',
+            'languages': 'Languages'
+        } %}
+
+        {% for field, title in section_titles.items() %}
+            {% if field in resume.selected_sections and resume[field] %}
+            <section class="preview-section">
+                <h2>{{ title }}</h2>
+                <div class="preview-content">{{ resume[field] }}</div>
+            </section>
+            {% endif %}
+        {% endfor %}
+
+        {% for custom in resume.custom_sections %}
+            {% if custom.title and custom.content %}
+            <section class="preview-section">
+                <h2>{{ custom.title }}</h2>
+                <div class="preview-content">{{ custom.content }}</div>
+            </section>
+            {% endif %}
+        {% endfor %}
+    </article>
+
+    <div class="preview-actions">
+        <a href="{{ url_for('download', resume_id=resume.id) }}"
+           class="generate-btn">Download PDF</a>
+
+        <a href="{{ url_for('home') }}">Create Another Resume</a>
+    </div>
+</main>
+
+</body>
+</html>

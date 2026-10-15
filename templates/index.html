@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"
+            defer></script>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="nav-container">
+        <a href="{{ url_for('home') }}" class="brand">ResumeBuilder</a>
+        <span class="nav-subtitle">Build your professional resume</span>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-heading">
+        <h1>Create Your Resume</h1>
+        <p>Enter your details and see your resume update instantly.</p>
+    </section>
+
+    <div class="builder-layout">
+
+        <!-- LEFT SIDE: RESUME FORM -->
+        <div class="builder-form">
+            <form action="{{ url_for('generate') }}" method="POST"
+                  id="resume-form">
+
+                <!-- PERSONAL INFORMATION -->
+                <section class="form-card">
+                    <h2>Personal Information</h2>
+
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name"
+                               placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email"
+                                   placeholder="you@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone *</label>
+                            <input type="tel" id="phone" name="phone"
+                                   placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address"
+                               placeholder="City, State">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn URL</label>
+                            <input type="text"
+                                   id="linkedin"
+                                   name="linkedin"
+                                   placeholder="www.linkedin.com/in/yourname"
+                                   autocomplete="url">
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="github">GitHub URL</label>
+                            <input type="text"
+                                   id="github"
+                                   name="github"
+                                   placeholder="github.com/yourname"
+                                   autocomplete="url">
+                            
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION SELECTION -->
+                <section class="form-card">
+                    <h2>Resume Sections</h2>
+                    <p class="helper-text">
+                        Select the sections you want to include.
+                    </p>
+
+                    <div class="checkbox-grid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="summary" checked>
+                            Career Objective
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="education" checked>
+                            Education
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="skills" checked>
+                            Skills
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="projects" checked>
+                            Projects
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="experience">
+                            Experience
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="certifications">
+                            Certifications
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="achievements">
+                            Achievements
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selected_sections"
+                                   value="languages">
+                            Languages
+                        </label>
+                    </div>
+                </section>
+
+                <!-- CAREER OBJECTIVE -->
+                <section class="form-card optional-section"
+                         data-section="summary">
+                    <h2>Career Objective</h2>
+                    <div class="form-group">
+                        <label for="summary">Objective / Summary</label>
+                        <textarea id="summary" name="summary" rows="4"
+                                  placeholder="Write a short professional summary..."></textarea>
+                    </div>
+                </section>
+
+                <!-- EDUCATION -->
+                <section class="form-card optional-section"
+                         data-section="education">
+                    <h2>Education</h2>
+                    <div class="form-group">
+                        <label for="education">Education Details</label>
+                        <textarea id="education" name="education" rows="5"
+                                  placeholder="Degree, college, year, CGPA..."></textarea>
+                    </div>
+                </section>
+
+                <!-- SKILLS -->
+                <section class="form-card optional-section"
+                         data-section="skills">
+                    <h2>Skills</h2>
+                    <div class="form-group">
+                        <label for="skills">Technical / Professional Skills</label>
+                        <textarea id="skills" name="skills" rows="4"
+                                  placeholder="Python, SQL, Machine Learning..."></textarea>
+                    </div>
+                </section>
+
+                <!-- PROJECTS -->
+                <section class="form-card optional-section"
+                         data-section="projects">
+                    <h2>Projects</h2>
+                    <div class="form-group">
+                        <label for="projects">Project Details</label>
+                        <textarea id="projects" name="projects" rows="5"
+                                  placeholder="Project title, technologies, description..."></textarea>
+                    </div>
+                </section>
+
+                <!-- EXPERIENCE -->
+                <section class="form-card optional-section"
+                         data-section="experience">
+                    <h2>Experience</h2>
+                    <div class="form-group">
+                        <label for="experience">Internship / Work Experience</label>
+                        <textarea id="experience" name="experience" rows="4"
+                                  placeholder="Company, role, duration, responsibilities..."></textarea>
+                    </div>
+                </section>
+
+                <!-- CERTIFICATIONS -->
+                <section class="form-card optional-section"
+                         data-section="certifications">
+                    <h2>Certifications</h2>
+                    <div class="form-group">
+                        <label for="certifications">Certifications</label>
+                        <textarea id="certifications" name="certifications"
+                                  rows="3"
+                                  placeholder="Certification name and provider..."></textarea>
+                    </div>
+                </section>
+
+                <!-- ACHIEVEMENTS -->
+                <section class="form-card optional-section"
+                         data-section="achievements">
+                    <h2>Achievements</h2>
+                    <div class="form-group">
+                        <label for="achievements">Achievements</label>
+                        <textarea id="achievements" name="achievements"
+                                  rows="3"
+                                  placeholder="Awards, competitions, accomplishments..."></textarea>
+                    </div>
+                </section>
+
+                <!-- LANGUAGES -->
+                <section class="form-card optional-section"
+                         data-section="languages">
+                    <h2>Languages</h2>
+                    <div class="form-group">
+                        <label for="languages">Languages Known</label>
+                        <textarea id="languages" name="languages" rows="2"
+                                  placeholder="Tamil, English..."></textarea>
+                    </div>
+                </section>
+
+                <!-- CUSTOM SECTIONS -->
+                <section class="form-card">
+                    <div class="section-heading-row">
+                        <div>
+                            <h2>Custom Sections</h2>
+                            <p class="helper-text">
+                                Add any extra section you need.
+                            </p>
+                        </div>
+
+                        <button type="button" id="add-custom-section"
+                                class="secondary-button">
+                            + Add Section
+                        </button>
+                    </div>
+
+                    <div id="custom-sections"></div>
+                </section>
+
+                <button type="submit" class="primary-button">
+                    Generate Resume
+                </button>
+
+            </form>
+        </div>
+
+        <!-- RIGHT SIDE: LIVE PREVIEW -->
+        <aside class="live-preview">
+            <h2>Live Resume Preview</h2>
+            <p class="helper-text">
+                Your changes appear here as you type.
+            </p>
+
+            <div class="resume-paper">
+                <header class="resume-header">
+                    <h1 id="preview-name">Your Name</h1>
+                    <p id="preview-contact">Email | Phone</p>
+                    <p id="preview-links"></p>
+                </header>
+
+                <div id="preview-sections">
+                    <p class="empty-preview">
+                        Start filling in the form to build your resume.
+                    </p>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <p>ResumeBuilder — Create your professional resume</p>
+</footer>
+
+</body>
+</html>
